@@ -1,0 +1,95 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Login | Hotel Management{% endblock %}
+
+{% block content %}
+<style>
+    .auth-container {
+        width: 100%;
+        max-width: 450px;
+        margin: 100px auto;
+        padding: 30px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .auth-container h2 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 25px;
+    }
+
+    .auth-container label {
+        display: block;
+        margin-top: 10px;
+        color: #555;
+        font-weight: 500;
+    }
+
+    .auth-container input[type="text"],
+    .auth-container input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    .auth-container button {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .auth-container button:hover {
+        background-color: #0056b3;
+    }
+
+    .auth-container p {
+        text-align: center;
+        margin-top: 15px;
+    }
+
+    .auth-container a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .auth-container a:hover {
+        text-decoration: underline;
+    }
+
+    .forgot-link {
+        display: block;
+        text-align: right;
+        margin-top: -10px;
+        margin-bottom: 15px;
+        font-size: 14px;
+    }
+</style>
+
+<div class="auth-container">
+    <h2>Login</h2>
+    <form method="post">
+        {% csrf_token %}
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+
+
+        <button type="submit">Login</button>
+    </form>
+    <p>Don't have an account? <a href="{% url 'register' %}">Register</a></p>
+</div>
+{% endblock %}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Invoice #{{ booking.id }}</title>
+  <style>
+      body       { font-family: "Helvetica", sans-serif; margin: 0 2rem; }
+      h1         { text-align: center; margin: 0.5em 0 1.5em; }
+      table.meta { width: 100%; margin-bottom: 1em; }
+      table.meta td:first-child { font-weight: 600; padding-right: 1rem; }
+      table.line { width: 100%; border-collapse: collapse; margin-bottom: 2em; }
+      table.line th, table.line td { border: 1px solid #aaa; padding: 6px 8px; }
+      .total     { text-align: right; font-size: 1.2em; margin-top: 1em; }
+      .foot      { font-size: 0.8em; text-align: center; color: #555; margin-top: 3em; }
+  </style>
+</head>
+<body>
+  <h1>Receipt / Tax Invoice</h1>
+
+  <table class="meta">
+    <tr><td>Invoice #</td><td>{{ booking.id }}</td></tr>
+    <tr><td>Date</td><td>{{ booking.created_at|date:"Y-m-d H:i" }}</td></tr>
+    <tr><td>Customer</td><td>{{ booking.name }} ({{ booking.contact }})</td></tr>
+    <tr><td>Room</td><td>#{{ booking.room.room_number }} – {{ booking.room.room_type }}</td></tr>
+  </table>
+
+  <table class="line">
+    <thead><tr><th>Description</th><th>Nights</th><th>Rate (₹)</th><th>Amount (₹)</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>Stay from {{ booking.check_in }} to {{ booking.check_out }}</td>
+        <td>{{ nights }}</td>
+        <td>{{ booking.room.price_per_night }}</td>
+        <td>{{ total_rupees }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="total"><strong>Total&nbsp;Paid:&nbsp;₹{{ total_rupees }}</strong></div>
+
+  <div class="foot">
+      Payment ID: {{ booking.razorpay_payment_id }} <br>
+      Thank you for staying with us. Have a wonderful day!
+  </div>
+</body>
+</html>

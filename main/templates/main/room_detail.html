@@ -1,0 +1,183 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Room {{ room.room_number }} | LuxuryStay{% endblock %}
+
+{% block content %}
+
+{# ───────────────────────── HERO BACKGROUND FALLBACK ────────────────────────── #}
+{% if room.main_image %}
+    <style>
+        .hero{background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),url({{ room.main_image.url }}) center/cover no-repeat}
+    </style>
+{% else %}
+    <style>
+        .hero{background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),url('https://images.unsplash.com/photo-1560448204-e02f11c3d0e2') center/cover no-repeat}
+    </style>
+{% endif %}
+
+{# ────────────────────────── GLOBAL & COMPONENT STYLES ───────────────────────── #}
+<style>
+    :root{
+        --primary:#0f172a; --accent:#38bdf8; --bg:#f8fafc; --text:#1e293b;
+        --success:#22c55e; --danger:#e11d48; --shadow:0 6px 18px rgba(0,0,0,.06);
+    }
+    body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);}
+    a{text-decoration:none}
+
+    /* HERO */
+    .hero{height:520px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;color:#fff}
+    .hero h1{font-size:3.5rem;margin:0 0 10px;animation:fadeDown .9s ease}
+    .hero span{font-size:1.25rem;opacity:.9;animation:fadeDown 1.2s ease}
+    @keyframes fadeDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+
+    /* RESPONSIVE GRID GALLERY */
+    .gallery{max-width:1140px;margin:50px auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px}
+    .gallery img{width:100%;height:230px;object-fit:cover;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,.08);cursor:pointer;transition:transform .35s,box-shadow .35s}
+    .gallery img:hover{transform:scale(1.04);box-shadow:0 12px 24px rgba(0,0,0,.12)}
+
+    /* INFO CARD */
+    .card{max-width:1140px;margin:60px auto;background:#fff;padding:48px;border-radius:18px;box-shadow:var(--shadow)}
+    .card h2{margin:0;font-size:2.1rem;color:var(--primary)}
+    .price{color:var(--success);font-size:1.4rem;font-weight:700}
+    .status{color:var(--danger);font-weight:600;margin-left:10px}
+    .desc{margin-top:18px;line-height:1.7;color:#334155}
+    .btn{display:inline-block;margin-top:28px;padding:15px 34px;border-radius:10px;font-weight:600;background:var(--accent);color:#fff;transition:background .3s}
+    .btn:hover{background:#0ea5e9}
+
+    /* GENERIC SECTION */
+    .section{max-width:1140px;margin:60px auto;background:#fff;padding:42px;border-radius:18px;box-shadow:var(--shadow)}
+    .section h3{margin:0 0 20px;font-size:1.6rem;color:var(--primary)}
+    .section ul{padding-left:22px;line-height:1.75;color:#334155}
+
+    /* AMENITIES GRID */
+    .amenity-grid{display:flex;flex-wrap:wrap;gap:14px;list-style:none;padding:0;margin-top:20px}
+    .amenity-grid li{flex:1 1 200px;background:#e0f2fe;color:#0284c7;padding:12px 18px;border-radius:10px;display:flex;align-items:center;gap:8px;font-size:.95rem}
+
+    /* SIMILAR ROOMS */
+    .similar-flex{display:flex;flex-wrap:wrap;gap:22px;justify-content:center}
+    .similar-card{width:260px;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,.08);transition:transform .3s}
+    .similar-card:hover{transform:translateY(-6px)}
+    .similar-card img{width:100%;height:160px;object-fit:cover}
+    .similar-card p{padding:14px 16px;font-size:.95rem}
+
+    /* BACK LINK */
+    .back{display:block;text-align:center;margin:70px auto 40px;color:#64748b;font-size:.95rem}
+    .back:hover{color:var(--primary)}
+
+    /* MODAL */
+    #imageModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);justify-content:center;align-items:center;z-index:9999}
+    #imageModal img{max-width:90%;max-height:90%;border:6px solid #fff;border-radius:12px}
+</style>
+
+{# ─────────────────────────────────── HEADER ─────────────────────────────────── #}
+<section class="hero">
+    <h1>Room {{ room.room_number }}</h1>
+    <span>{{ room.get_room_type_display }} • ₹{{ room.price_per_night }} / night</span>
+</section>
+
+{# ────────────────────────────── IMAGE GALLERY ──────────────────────────────── #}
+<div class="gallery">
+    {% if room.main_image %}<img src="{{ room.main_image.url }}" alt="Main image">{% endif %}
+    {% if room.image_2 %}<img src="{{ room.image_2.url }}" alt="Image 2">{% endif %}
+    {% if room.image_3 %}<img src="{{ room.image_3.url }}" alt="Image 3">{% endif %}
+    {% if room.image_4 %}<img src="{{ room.image_4.url }}" alt="Image 4">{% endif %}
+</div>
+
+{# ───────────────────────────── ROOM INFORMATION ────────────────────────────── #}
+<div class="card">
+    <div style="display:flex;justify-content:space-between;flex-wrap:wrap;align-items:center;gap:20px">
+        <h2>{{ room.get_room_type_display }} – Room {{ room.room_number }}</h2>
+        <div><span class="price">₹{{ room.price_per_night }} / night</span><span class="status">({{ room.is_available|yesno:"Available,Booked" }})</span></div>
+    </div>
+    <p class="desc">{{ room.detailed_description }}</p>
+    <p class="desc">{{ room.short_description }}</p>
+
+    {% if room.is_available %}
+        <a href="{% url 'room_book' room_id=room.id %}" class="btn">🛎️ Book Now</a>
+    {% else %}
+        <span class="btn" style="background:#cbd5e1;cursor:not-allowed;">Booked</span>
+    {% endif %}
+
+    <h3 style="margin-top:40px;font-size:1.4rem;color:var(--primary)">Amenities</h3>
+    <ul class="amenity-grid">
+        {% for f in facilities_list %}<li><i class="fa fa-check-circle"></i>{{ f }}</li>{% endfor %}
+    </ul>
+</div>
+
+{# ───────────────────────────── WHY CHOOSE SECTION ──────────────────────────── #}
+<section class="section">
+    <h3>Why Choose This Room?</h3>
+    <ul>
+        <li>Prime location with scenic city or garden views</li>
+        <li>Rated 4.8★ by past guests for cleanliness & service</li>
+        <li>Smart automation – voice‑controlled lighting & 50" 4K TV</li>
+        <li>24/7 concierge, express check‑in/out, and complimentary Wi‑Fi</li>
+        <li>Eco‑friendly toiletries and daily housekeeping included</li>
+    </ul>
+</section>
+
+{# ───────────────────────────── BOOKING POLICIES ────────────────────────────── #}
+<section class="section">
+    <h3>Booking & Cancellation Policy</h3>
+    <ul>
+        <li>Free cancellation up to <strong>48 hours</strong> before check‑in</li>
+        <li>Only <strong>50% advance</strong> required to confirm booking</li>
+        <li>No refunds for no‑shows or same‑day cancellations</li>
+        <li>Check‑in: 2:00 PM | Check‑out: 11:00 AM</li>
+        <li>Government‑issued photo ID mandatory at check‑in</li>
+    </ul>
+</section>
+
+{# ───────────────────────────── LOCATION SECTION ────────────────────────────── #}
+<section class="section">
+    <h3>Location & Nearby</h3>
+    <p class="desc">Perfectly positioned in the heart of the city:</p>
+    <ul>
+        <li>500 m to Central Bus Station</li>
+        <li>2 km to Main Railway Station</li>
+        <li>Walking distance to City Mall & top eateries</li>
+        <li>30‑minute drive from the International Airport</li>
+    </ul>
+    <div style="margin-top:28px;border-radius:12px;overflow:hidden;box-shadow:var(--shadow)">
+        <iframe src="https://maps.google.com/maps?q=gandhinagar%20luxury%20hotel&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%" height="320" style="border:0" allowfullscreen></iframe>
+    </div>
+</section>
+
+{# ────────────────────────────── FAQ ACCORDION ──────────────────────────────── #}
+<section class="section">
+    <h3>Frequently Asked Questions</h3>
+    <details style="margin-bottom:10px"><summary>Is breakfast included?</summary><p style="margin-left:18px">Yes, a complimentary buffet breakfast is included for all guests.</p></details>
+    <details style="margin-bottom:10px"><summary>Do you allow early check‑in?</summary><p style="margin-left:18px">Early check‑in is subject to availability; nominal charges may apply.</p></details>
+    <details style="margin-bottom:10px"><summary>Are pets allowed?</summary><p style="margin-left:18px">We’re sorry, pets are not permitted in this room category.</p></details>
+    <details><summary>Is parking available?</summary><p style="margin-left:18px">Yes, secure on‑site parking is free for all registered guests.</p></details>
+</section>
+
+{# ───────────────────────────── SIMILAR ROOMS ──────────────────────────────── #}
+{% if similar_rooms %}
+<section class="section" style="background:transparent;box-shadow:none">
+    <h3>Similar Rooms</h3>
+    <div class="similar-flex">
+        {% for r in similar_rooms %}
+        <div class="similar-card">
+            {% if r.main_image %}<img src="{{ r.main_image.url }}" alt="Room {{ r.room_number }}">{% else %}<img src="https://via.placeholder.com/260x160" alt="No image">{% endif %}
+            <p><strong>Room {{ r.room_number }}</strong> – ₹{{ r.price_per_night }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+{# ───────────────────────────── BACK LINK ──────────────────────────────── #}
+<a href="{% url 'room_list' %}" class="back">← Back to Room List</a>
+
+{# ───────────────────────────── IMAGE MODAL JS ──────────────────────────────── #}
+<div id="imageModal"><img id="modalImage"></div>
+<script>
+  const modal=document.getElementById('imageModal');
+  const modalImg=document.getElementById('modalImage');
+  document.querySelectorAll('.gallery img').forEach(img=>img.addEventListener('click',()=>{modal.style.display='flex';modalImg.src=img.src;}));
+  modal.addEventListener('click',()=>{modal.style.display='none';modalImg.src='';});
+</script>
+
+{% endblock %}

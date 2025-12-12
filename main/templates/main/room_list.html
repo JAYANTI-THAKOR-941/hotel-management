@@ -1,0 +1,205 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Rooms | LuxuryStay{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #f4f7fa;
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }
+
+    a { text-decoration: none; }
+
+    .hero {
+        height: 400px;
+        background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url("https://images.unsplash.com/photo-1560448204-e02f11c3d0e2") center/cover no-repeat;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: #fff;
+        position: relative;
+    }
+
+    .hero h1 {
+        font-size: 48px;
+        margin: 0;
+        animation: fadeIn 1.5s ease;
+    }
+
+    .hero p {
+        font-size: 18px;
+        margin-top: 10px;
+        animation: fadeIn 2s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-title {
+        text-align: center;
+        font-size: 32px;
+        margin: 60px 0 30px;
+        color: #1e88e5;
+        position: relative;
+    }
+
+    .section-title::after {
+        content: '';
+        width: 80px;
+        height: 3px;
+        background: #1e88e5;
+        display: block;
+        margin: 10px auto 0;
+        border-radius: 5px;
+    }
+
+    .room-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 30px;
+        padding: 0 5% 60px;
+    }
+
+    .room-card {
+        background: #fff;
+        border-radius: 12px;
+        overflow: hidden;
+        width: 320px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .room-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .room-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .room-card .info {
+        padding: 20px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .room-card h3 {
+        font-size: 20px;
+        color: #2d3436;
+        margin-bottom: 6px;
+    }
+
+    .room-card p {
+        font-size: 14px;
+        color: #555;
+        margin: 6px 0;
+    }
+
+    .room-card .price {
+        font-size: 18px;
+        font-weight: bold;
+        color: #43a047;
+        margin: 10px 0;
+    }
+
+    .room-card .status {
+        font-size: 13px;
+        font-weight: 600;
+        color: #c62828;
+        margin-bottom: 10px;
+    }
+
+    .room-card .btn {
+        padding: 10px 16px;
+        background: #1e88e5;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        font-size: 14px;
+        margin-top: auto;
+        transition: background 0.3s;
+    }
+
+    .room-card .btn:hover {
+        background: #1669bb;
+    }
+
+    .info-section {
+        padding: 60px 20px;
+        background: #fff;
+        text-align: center;
+        color: #444;
+    }
+    .info-section h3 {
+        font-size: 26px;
+        color: #1e88e5;
+        margin-bottom: 10px;
+    }
+    .info-section p {
+        font-size: 16px;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+</style>
+
+<section class="hero">
+    <div>
+        <h1>Luxury Rooms Await</h1>
+        <p>Comfort. Elegance. Convenience — all in one stay.</p>
+    </div>
+</section>
+
+<h2 class="section-title">Our Rooms</h2>
+
+<div class="room-list">
+    {% for room in rooms %}
+        <div class="room-card">
+            {% if room.main_image %}
+                <img src="{{ room.main_image.url }}" alt="Room {{ room.room_number }}">
+            {% else %}
+                <img src="https://via.placeholder.com/320x200" alt="No image available">
+            {% endif %}
+            <div class="info">
+                <h3>Room {{ room.room_number }}</h3>
+                <p>Type: {{ room.get_room_type_display }}</p>
+                <p class="price">₹{{ room.price_per_night }} / night</p>
+                <p>{{ room.short_description }}</p>
+                <p class="status">Status: {{ room.is_available|yesno:"Available,Booked" }}</p>
+                {% if room.is_available %}
+                    <a href="{% url 'room_detail' room.id %}" class="btn">View Details</a>
+                {% else %}
+                    <span class="btn" style="background: #ccc; cursor: not-allowed;">Unavailable</span>
+                {% endif %}
+            </div>
+        </div>
+    {% empty %}
+        <p>No rooms found.</p>
+    {% endfor %}
+</div>
+
+<section class="info-section">
+    <h3>Why Choose LuxuryStay?</h3>
+    <p>Experience exceptional service, spotless rooms, and amenities that make you feel at home. Book now for exclusive offers and seamless stays.</p>
+</section>
+
+<section class="info-section">
+    <h3>Need Help?</h3>
+    <p>We're available 24/7 to assist you with your booking or any queries. Reach out via our contact page for personalized support.</p>
+</section>
+
+{% endblock %}

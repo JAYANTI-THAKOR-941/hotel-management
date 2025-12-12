@@ -1,0 +1,108 @@
+{% extends 'main/base.html' %}
+
+{% block title %} Register | Hotel Management {% endblock %}
+
+{% block content %}
+<style>
+    .register-container {
+        width: 100%;
+        max-width: 450px;
+        margin: 100px auto;
+        padding: 30px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .register-container h2 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 25px;
+    }
+
+    .register-container label {
+        display: block;
+        margin-top: 10px;
+        color: #555;
+        font-weight: 500;
+    }
+
+    .register-container input {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+        font-size: 14px;
+    }
+
+    .register-container button {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .register-container button:hover {
+        background-color: #0056b3;
+    }
+
+    .register-container p {
+        text-align: center;
+        margin-top: 15px;
+    }
+
+    .register-container a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .register-container a:hover {
+        text-decoration: underline;
+    }
+
+    /* Error styling */
+    .errorlist {
+        color: #d93025;
+        margin-top: 5px;
+        margin-bottom: 0;
+        list-style-type: none;
+        padding-left: 0;
+        font-size: 13px;
+    }
+</style>
+
+<div class="register-container">
+    <h2>Register</h2>
+    <form method="post">
+        {% csrf_token %}
+
+        {{ form.username.errors }}
+        <label for="{{ form.username.id_for_label }}">Username</label>
+        {{ form.username }}
+
+        {{ form.email.errors }}
+        <label for="{{ form.email.id_for_label }}">Email</label>
+        {{ form.email }}
+
+        {{ form.password1.errors }}
+        <label for="{{ form.password1.id_for_label }}">Password</label>
+        {{ form.password1 }}
+
+        {{ form.password2.errors }}
+        <label for="{{ form.password2.id_for_label }}">Confirm Password</label>
+        {{ form.password2 }}
+
+        <button type="submit">Register</button>
+    </form>
+    <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+</div>
+{% endblock %}

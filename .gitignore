@@ -1,0 +1,91 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django stuff
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media/
+
+# If using environment variables
+.env
+*.env
+
+# Static and media files (optional)
+staticfiles/
+static/
+media/
+
+# Virtual environment
+venv/
+env/
+ENV/
+.venv/
+
+# IDE/Editor related
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# PyCharm
+*.iml
+
+# Migrations (optional - only ignore if auto-generated)
+# **Uncomment the next line ONLY if you don’t want to track migration files**
+# */migrations/
+
+# Byte-compiled / optimized / DLL files
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Pip
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Coverage / testing
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+.pytest_cache/
+pytestdebug.log
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# Pytype
+.pytype/

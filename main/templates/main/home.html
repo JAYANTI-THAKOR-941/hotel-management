@@ -1,0 +1,275 @@
+{% extends 'main/base.html' %}
+{% block title %}Home | Hotel Palav{% endblock %}
+{% block content %}
+
+<style>
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+  }
+
+  section {
+    padding: 60px 5%;
+  }
+
+  .section-title {
+    text-align: center;
+    font-size: 34px;
+    color: #1a73e8;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .hero {
+    height: 70vh;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+      url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+  }
+
+  .hero h1 {
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .hero p {
+    font-size: 18px;
+    margin-bottom: 25px;
+  }
+
+  .btn {
+    background: #f1c40f;
+    color: #2c3e50;
+    padding: 12px 25px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+  }
+
+  .btn:hover {
+    background: #d4ac0d;
+  }
+
+  .about {
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .about p {
+    font-size: 18px;
+    color: #444;
+    margin-bottom: 15px;
+  }
+
+  .about img {
+    margin-top: 30px;
+    width: 100%;
+    max-height: 350px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  }
+
+  .custom-img-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    justify-content: center;
+  }
+
+  .custom-img-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+    max-width: 500px;
+  }
+
+  .custom-img-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  .custom-img-card .info {
+    padding: 15px;
+  }
+
+  .custom-img-card h3 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 10px;
+  }
+
+  .custom-img-card p {
+    color: #555;
+    font-size: 15px;
+  }
+
+  .events, .dining {
+    background: #f1f8ff;
+  }
+
+  .amenities-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .amenity {
+    background: #e8f0fe;
+    padding: 20px;
+    border-radius: 10px;
+    min-width: 180px;
+    text-align: center;
+    font-weight: 500;
+  }
+
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 15px;
+  }
+
+  .gallery img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  .testimonial {
+    background: #f4faff;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 700px;
+    border-left: 5px solid #1a73e8;
+    font-style: italic;
+    color: #333;
+  }
+
+  .contact {
+    background: #e3f2fd;
+    text-align: center;
+  }
+
+  .contact p {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+</style>
+
+<!-- Hero -->
+<section class="hero">
+  <div>
+    <h1>Welcome to Hotel Palav</h1>
+    <p>Modern luxury meets timeless hospitality.</p>
+    <a href="/room_list" class="btn">Explore Now</a>
+  </div>
+</section>
+
+<!-- About -->
+<section class="about">
+  <h2 class="section-title">About Us</h2>
+  <p>Welcome to Hotel Palav — where elegance, comfort, and impeccable service come together to create an unforgettable experience.</p>
+  <p>Located in the heart of the city, our hotel blends modern amenities with timeless charm. Whether you're traveling for business, leisure, or a special event, we’re dedicated to making your stay exceptional.</p>
+  <p>Enjoy tastefully decorated rooms, personalized service, fine dining, and access to major tourist spots and business hubs.</p>
+  <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=1200&q=80" alt="Hotel Front">
+</section>
+
+<!-- Events & Meetings -->
+<section class="events">
+  <h2 class="section-title">Events & Meetings</h2>
+  <div class="custom-img-section">
+    <div class="custom-img-card">
+      <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=800&q=80" alt="Meeting Hall">
+      <div class="info">
+        <h3>Corporate Meetings</h3>
+        <p>State-of-the-art meeting rooms equipped with Wi-Fi and AV setup for your business needs.</p>
+      </div>
+    </div>
+    <div class="custom-img-card">
+      <img src="https://cache.marriott.com/content/dam/marriott-renditions/BOMSA/bomsa-grand-ballroom-6737-hor-wide.jpg?output-quality=70&interpolation=progressive-bilinear&downsize=1920px:*" alt="Event Hall">
+      <div class="info">
+        <h3>Weddings & Events</h3>
+        <p>Elegant banquet spaces for weddings, anniversaries, and parties with full catering support.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Dining Experience -->
+<section class="dining">
+  <h2 class="section-title">Dining Experience</h2>
+  <div class="custom-img-section">
+    <div class="custom-img-card">
+      <img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=800&q=80" alt="Dining">
+      <div class="info">
+        <h3>Gourmet Cuisine</h3>
+        <p>Enjoy world-class meals crafted by expert chefs in a luxurious ambiance.</p>
+      </div>
+    </div>
+    <div class="custom-img-card">
+      <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/13/da/4c/15/buffet-layout.jpg?w=900&h=-1&s=1" alt="Cafe">
+      <div class="info">
+        <h3>24x7 Café</h3>
+        <p>Relax anytime with snacks, coffee, and desserts round the clock.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Amenities -->
+<section class="amenities">
+  <h2 class="section-title">Amenities</h2>
+  <div class="amenities-list">
+    <div class="amenity">Free Wi-Fi</div>
+    <div class="amenity">Restaurant & Room Service</div>
+    <div class="amenity">Air Conditioning</div>
+    <div class="amenity">Laundry & Housekeeping</div>
+    <div class="amenity">Free Parking</div>
+    <div class="amenity">24/7 Front Desk</div>
+  </div>
+</section>
+
+<!-- Gallery -->
+<section class="gallery-section">
+  <h2 class="section-title">Gallery</h2>
+  <div class="gallery">
+    <img src="https://t4.ftcdn.net/jpg/01/55/34/11/360_F_155341152_1ulyMHoDnWR47iLyYzmUiLUAlA8q6D8x.jpg" alt="Lobby">
+    <img src="https://assets.cntraveller.in/photos/631217d33c602c95d2bace79/4:3/w_1560,h_1170,c_limit/MO%20Tokyo%203.jpeg" alt="Restaurant">
+    <img src="https://img1.10bestmedia.com/Images/Photos/378649/Park-Hyatt-New-York-Manhattan-Sky-Suite-Master-Bedroom-low-res_54_990x660.jpg?auto=webp&width=3840&quality=75" alt="Bedroom">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzQARPWqZWjl7w57hjQ18wM4WsVg7_ON9deg&s" alt="Corridor">
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="testimonials">
+  <h2 class="section-title">What Guests Say</h2>
+  <div class="testimonial">
+    "The stay was absolutely amazing! The room was spotless, the food was delicious, and the staff made us feel right at home."
+  </div>
+  <div class="testimonial">
+    "A perfect place for business travelers. High-speed Wi-Fi, quiet environment, and wonderful hospitality."
+  </div>
+</section>
+
+<!-- Contact -->
+<section class="contact">
+  <h2 class="section-title">Book Your Stay</h2>
+  <p>Planning a trip? Reserve your room now and enjoy unmatched hospitality.</p>
+  <a href="/room_list" class="btn">Check Availability</a>
+</section>
+
+{% endblock %}

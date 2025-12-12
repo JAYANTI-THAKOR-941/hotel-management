@@ -1,0 +1,238 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Hotel Management{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <style>
+    nav {
+      background-color: #fff;
+      padding: 15px 30px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+      text-transform: uppercase;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+
+    .nav-menu {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav-menu li a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+    }
+
+    .nav-btn {
+      text-decoration: none;
+      background-color: #007bff;
+      color: white;
+      padding: 8px 15px;
+      border-radius: 4px;
+    }
+
+    .profile-container {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+    }
+
+    .profile-icon {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      background-color: #ccc;
+      text-align: center;
+      line-height: 35px;
+      font-weight: bold;
+    }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 40px;
+      background-color: white;
+      border: 1px solid #ddd;
+      min-width: 160px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      z-index: 999;
+    }
+
+    .dropdown a {
+      display: block;
+      padding: 10px;
+      color: black;
+      text-decoration: none;
+    }
+
+    .dropdown a:hover {
+      background-color: #f2f2f2;
+    }
+
+    .dropdown.show {
+      display: block;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #1a1a1a;
+      color: #fff;
+      padding: 60px 5%;
+      margin-top: 40px;
+    }
+
+    .footer-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      justify-content: space-between;
+    }
+
+    .footer-section {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .footer-section h3 {
+      font-size: 20px;
+      margin-bottom: 20px;
+      color: #f1c40f;
+    }
+
+    .footer-section p,
+    .footer-section li,
+    .footer-section a {
+      color: #ddd;
+      font-size: 14px;
+      line-height: 1.8;
+      text-decoration: none;
+    }
+
+    .footer-section ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-section a:hover {
+      color: #fff;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 30px;
+      border-top: 1px solid #333;
+      padding-top: 20px;
+      font-size: 14px;
+      color: #aaa;
+    }
+
+    @media (max-width: 768px) {
+      .footer-container {
+        flex-direction: column;
+        gap: 30px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <div class="container">
+      <div class="logo">Hotel Palav</div>
+      <ul class="nav-menu">
+        <li><a href="/">Home</a></li>
+        <li><a href="/room_list">Rooms</a></li>
+        <li><a href="/about">About Us</a></li>
+        <li><a href="/contact">Contact Us</a></li>
+      </ul>
+
+      {% if user.is_authenticated %}
+      <div class="profile-container" id="profileDropdown">
+        <div class="profile-icon">
+          {{ user.first_name|default:user.username|first|upper }}
+        </div>
+        <div class="dropdown" id="dropdownMenu">
+          <a href="{% url 'logout' %}">Logout</a>
+        </div>
+      </div>
+      {% else %}
+      <a href="{% url 'login' %}" class="nav-btn">Login</a>
+      {% endif %}
+    </div>
+  </nav>
+
+  {% block content %}
+  {% endblock %}
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-section">
+        <h3>Hotel Palav</h3>
+        <p>Experience luxury, comfort, and hospitality in the heart of the city. We provide top-class services for business and leisure travelers.</p>
+      </div>
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/room_list">Rooms</a></li>
+          <li><a href="/about">About Us</a></li>
+          <li><a href="/contact">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Contact</h3>
+        <p>Email: info@hotelpalav.com</p>
+        <p>Phone: +91 98765 43210</p>
+        <p>Address: Main Road, Gandhinagar, Gujarat</p>
+      </div>
+      <div class="footer-section">
+        <h3>Follow Us</h3>
+        <p><a href="#">Facebook</a></p>
+        <p><a href="#">Instagram</a></p>
+        <p><a href="#">Twitter</a></p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2025 Hotel Palav. All rights reserved.
+    </div>
+  </footer>
+
+  <script>
+    // Toggle dropdown on click
+    const profileIcon = document.getElementById('profileDropdown');
+    const dropdown = document.getElementById('dropdownMenu');
+
+    if (profileIcon) {
+      profileIcon.addEventListener('click', (e) => {
+        dropdown.classList.toggle('show');
+        e.stopPropagation();
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener('click', function (event) {
+        if (!profileIcon.contains(event.target)) {
+          dropdown.classList.remove('show');
+        }
+      });
+    }
+  </script>
+</body>
+</html>
